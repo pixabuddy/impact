@@ -1,0 +1,1033 @@
+// Variables
+$bg-color: #130522;
+$color-para: #b2a3c2;
+$color-d-3: #21142e;
+$color-white: #fff;
+$base-g: linear-gradient(to top left, #443ed9 9%, #f603c7 100%);
+$base-g-reverse: linear-gradient(to top left, #f603c7 9%, #443ed9 100%);
+
+// Installing local font
+@font-face {
+	font-family: FolioBQ;
+	src: url(../font/FolioBQ.otf);
+}
+
+// mixins
+
+@mixin border-g {
+	border: 2px solid;
+	background-image-source: $base-g;
+}
+
+@mixin text-g {
+	background: linear-gradient(132.83deg, #ffcee6 8.69%, #f603c7 100.36%);
+	color: transparent;
+	-webkit-background-clip: text;
+}
+
+@mixin clearfix {
+	&::after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+}
+
+@mixin center__both {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+// ======== mixins for flex row
+
+@mixin flex-row {
+	display: flex;
+	flex-direction: row;
+}
+
+@mixin flex-row_center {
+	@include flex-row;
+	justify-content: center;
+	align-items: center;
+}
+
+// ======== for flex column
+
+@mixin flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+@mixin flex-column_center {
+	@include flex-column;
+	justify-content: center;
+	align-items: center;
+}
+
+// MEDIA QUERY MANAGER
+/*
+
+0 - 350px;         Small Phone
+350 - 600px;       Phone
+600 - 900px;       Table potrait
+900 - 1200px;      Table landscape
+1200 - 1800px ( is where the normal style is applies )
+1200 - 1800+ px;   Big desktop
+
+$breakpoint arguement choices :
+
+- sm-phone
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ ORDER: Base + Typography > genarel layout + grid > page layout > components
+
+*/
+
+@mixin respond($breakpoint) {
+	@if $breakpoint == sm-phone {
+		@media only screen and (max-width: 375px) {
+			@content;
+		} //  21.5em;
+	}
+
+	@if $breakpoint == phone {
+		@media only screen and (max-width: 600px) {
+			@content;
+		} // 37.5em;
+	}
+
+	@if $breakpoint == tab-port {
+		@media only screen and (max-width: 900px) {
+			@content;
+		} // 56.25em;
+	}
+
+	@if $breakpoint == tab-land {
+		@media only screen and (max-width: 1200px) {
+			@content;
+		} // 75em;
+	}
+
+	@if $breakpoint == big-desktop {
+		@media only screen and (min-width: 1800px) {
+			@content;
+		} // 112.5em;
+	}
+}
+
+// Base
+/* ============================================ */
+/* ================ universal selector adjustment ================ */
+/* ============================================ */
+
+*,
+*::after,
+*::before {
+	padding: 0;
+	margin: 0;
+	box-sizing: inherit;
+}
+
+/* ============================================ */
+/* ================ html font size adjustment ================ */
+/* ============================================ */
+
+html {
+	scroll-behavior: smooth;
+	// this defines what 1rem is
+	font-size: 10px;
+}
+
+/* ============================================ */
+/* ================ body customization ================ */
+/* ============================================ */
+
+body {
+	box-sizing: border-box;
+	background-color: $bg-color !important;
+	background-image: url(../img/bg-image.png);
+	font-family: 'Poppins', sans-serif !important;
+	font-weight: 500;
+	color: $color-para;
+	width: 100%;
+	height: 100vh;
+
+	a {
+		text-decoration: none;
+	}
+
+	button,
+	button:focus {
+		outline: none;
+	}
+}
+
+/* ============================================ */
+/* ================ section padding ================ */
+/* ============================================ */
+
+section {
+	padding: 9rem 0;
+
+	@include respond(tab-land) {
+		padding: 6.5rem 0;
+	}
+
+	@include respond(tab-port) {
+		padding: 5.5rem 0;
+	}
+
+	@include respond(phone) {
+		padding: 6.5rem 12px;
+	}
+}
+
+/* ============================================ */
+/* ================ no gutters for row ================ */
+/* ============================================ */
+
+.row.no-gutters {
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.row.no-gutters > [class^='col-'],
+.row.no-gutters > [class*=' col-'] {
+	padding-right: 0;
+	padding-left: 0;
+}
+
+/* ============================================ */
+/* ================ customize selection ================ */
+/* ============================================ */
+
+::selection {
+	background-color: $bg-color;
+	color: #ffffff;
+}
+
+// Custom buttons
+.btn {
+	padding: 10px 24px !important;
+	border-radius: 8px !important;
+	color: $color-white !important;
+	font-size: 1.8rem !important ;
+	outline: none !important;
+	box-shadow: none;
+	transition: all 0.3s;
+
+	&-fill {
+		background: $base-g !important;
+		border: none !important;
+		transition: all 0.3s;
+
+		&:hover {
+			background: $base-g-reverse !important;
+		}
+	}
+
+	&-outline {
+		position: relative;
+		box-shadow: none !important;
+		transition: all 0.3s;
+
+		&:before {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			padding: 2px;
+			border-radius: 8px;
+			background: $base-g;
+			-webkit-mask: linear-gradient(#fff 0 0) content-box,
+				linear-gradient(#fff 0 0);
+			-webkit-mask-composite: destination-out;
+			mask-composite: exclude;
+		}
+		&:hover {
+			background: $base-g;
+
+			&::before {
+				display: none;
+			}
+		}
+	}
+}
+
+// Custom Heading
+.heading {
+	&-box {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin-bottom: 5rem;
+	}
+
+	&-primary {
+		font-size: 4rem;
+		font-family: FolioBQ;
+		color: $color-white;
+
+		@include respond(phone) {
+			font-size: 3.4rem;
+		}
+	}
+}
+
+// Custom paragraph
+.para {
+	font-size: 1.8rem !important;
+	color: $color-para;
+	line-height: 180%;
+}
+
+/* ============================================ */
+/* ================ Header starts ================ */
+/* ============================================ */
+
+.header_area {
+	width: 100%;
+	background-color: transparent;
+	position: relative;
+	padding: 14px 0;
+	z-index: 999;
+
+	@include respond(phone) {
+		padding: 2px 0;
+	}
+
+	// Navbar starts
+	.navbar {
+		background: transparent;
+		padding: 0px;
+		border: 0px;
+		border-radius: 0px;
+
+		@include respond(phone) {
+			padding: 0 1.5rem;
+		}
+
+		&-brand {
+			width: auto;
+			font-size: 3.6rem;
+			font-weight: 600;
+			color: $color-white !important;
+			font-family: FolioBQ;
+			padding-top: 0;
+			padding-bottom: 0;
+
+			@include respond(phone) {
+			}
+
+			@include respond(sm-phone) {
+			}
+		}
+
+		.nav {
+			&-item {
+				margin-right: 4rem;
+				transition: all 0.2s;
+
+				.nav-link {
+					text-transform: capitalize;
+					color: $color-para;
+					padding: 0px;
+					display: inline-block;
+					font-size: 1.8rem;
+					transition: all 0.3s;
+
+					&::after {
+						display: none;
+					}
+
+					&:hover {
+						color: $color-white;
+					}
+				}
+
+				&:last-child {
+					margin-right: 0px;
+				}
+			}
+		}
+
+		&-nav {
+			margin: 2rem 0 2rem 14rem;
+		}
+	}
+}
+
+@media (min-width: 992px) {
+	.header_area .navbar .nav .nav-item.submenu ul {
+		position: absolute;
+		top: 120%;
+		left: 0px;
+		min-width: 200px;
+		text-align: left;
+		opacity: 0;
+		transition: all 300ms ease-in;
+		visibility: hidden;
+		display: block;
+		border: none;
+		padding: 0px;
+		border-radius: 0px;
+	}
+
+	.header_area .navbar .nav .nav-item.submenu:hover ul {
+		visibility: visible;
+		opacity: 1;
+		top: 100%;
+	}
+}
+
+.header_area.navbar_fixed .main_menu {
+	position: fixed;
+	width: 100%;
+	top: -70px;
+	left: 0;
+	right: 0;
+	padding: 8px 0;
+	background: rgba($color-white, 0.85);
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+	transform: translateY(70px);
+	transition: transform 500ms ease, background 500ms ease;
+	-webkit-transition: transform 500ms ease, background 500ms ease;
+	box-shadow: 0 8px 45px rgba(221, 160, 188, 0.2);
+	z-index: 9999;
+}
+
+.header_area.navbar_fixed .main_menu .navbar .nav .nav-item .nav-link {
+	line-height: 70px;
+}
+
+.right-button {
+	@include flex-row_center;
+	margin-left: 40px;
+
+	@include respond(tab-port) {
+		display: none;
+	}
+}
+
+.right-button ul {
+	margin-bottom: 0;
+}
+
+.right-button ul {
+	padding: 0;
+	list-style: none;
+	display: flex;
+}
+
+@media (max-width: 1619px) {
+	.header_area .navbar .search {
+		margin-left: 40px;
+	}
+}
+
+@media (max-width: 1300px) {
+}
+
+@media (max-width: 1199px) {
+	.header_area .navbar .nav .nav-item {
+		margin-right: 28px;
+	}
+}
+
+.navbar-toggler {
+	@include respond(phone) {
+		margin-top: 27px !important;
+		margin-bottom: 23px !important;
+	}
+}
+
+@media (max-width: 991px) {
+	.navbar-toggler {
+		border: none;
+		border-radius: 0;
+		padding: 0;
+		cursor: pointer;
+		margin-top: 16px;
+		margin-bottom: 16px;
+	}
+
+	.navbar-toggler[aria-expanded='false'] span:nth-child(2) {
+		opacity: 1;
+	}
+
+	.navbar-toggler[aria-expanded='true'] span:nth-child(2) {
+		opacity: 0;
+	}
+
+	.navbar-toggler[aria-expanded='true'] span:first-child {
+		transform: rotate(-45deg);
+		position: relative;
+		top: 7.5px;
+	}
+
+	.navbar-toggler[aria-expanded='true'] span:last-child {
+		transform: rotate(45deg);
+		bottom: 6px;
+		position: relative;
+	}
+
+	.navbar-toggler span {
+		display: block;
+		width: 25px;
+		height: 3px;
+		background: $color-white;
+		margin: auto;
+		margin-bottom: 4px;
+		transition: all 400ms linear;
+		cursor: pointer;
+	}
+
+	.navbar .container {
+		padding-left: 15px !important;
+		padding-right: 15px !important;
+	}
+
+	.navbar-light .navbar-toggler {
+		border: none !important;
+	}
+
+	.header_top .nav {
+		padding: 0;
+	}
+
+	.header_area .navbar .nav .nav-item .nav-link {
+		line-height: 40px;
+		margin-right: 0;
+		display: block;
+		border-radius: 0;
+	}
+
+	.header_area.navbar_fixed .main_menu .navbar .nav .nav-item .nav-link {
+		line-height: 40px;
+	}
+
+	.header_area .navbar .search {
+		margin-left: 0;
+	}
+
+	.header_area .navbar-collapse {
+		max-height: 340px;
+		overflow-y: scroll;
+	}
+
+	.header_area .navbar .nav .nav-item.submenu ul .nav-item .nav-link {
+		padding: 0 15px;
+	}
+
+	.header_area .navbar .nav .nav-item {
+		margin-right: 0;
+	}
+}
+
+@media (max-width: 600px) {
+	.builder_inner .builder_item {
+		flex: 0 0 100%;
+		max-width: 100%;
+	}
+}
+
+@media (max-width: 575px) {
+	.top_menu {
+		display: none;
+	}
+}
+
+/* ============================================ */
+/* ================ banner starts ================ */
+/* ============================================ */
+
+.banner {
+	.row {
+		@include respond(phone) {
+			flex-direction: column-reverse;
+		}
+	}
+
+	&-left {
+		padding-right: 5rem;
+
+		@include respond(tab-land) {
+			padding-right: 3rem;
+		}
+
+		@include respond(tab-port) {
+			padding-right: 0;
+		}
+
+		@include respond(phone) {
+			margin-top: 4rem;
+		}
+
+		&__heading {
+			color: $color-white;
+			font-size: 3.4rem;
+			font-family: FolioBQ;
+			line-height: 150%;
+
+			@include respond(phone) {
+				font-size: 3rem;
+			}
+		}
+
+		&__des {
+			@extend .para;
+			font-size: 1.6rem !important;
+			margin-top: 3rem;
+		}
+
+		&__actions {
+			margin: 4rem 0;
+
+			@include respond(phone) {
+				margin: 3rem 0;
+			}
+			a {
+				&:first-child {
+					margin-right: 2.5rem;
+				}
+			}
+		}
+
+		&__details {
+			list-style-type: none;
+			display: flex;
+
+			li {
+				margin-right: 4rem;
+				color: $color-para;
+				font-size: 1.6rem;
+
+				&:last-child {
+					margin-right: 0;
+				}
+
+				@include respond(tab-land) {
+					margin-right: 4rem;
+					font-size: 1.4rem;
+				}
+
+				@include respond(sm-phone) {
+					font-size: 1.2rem;
+					margin-right: 2rem;
+				}
+
+				span {
+					font-size: 3rem;
+					font-family: FolioBQ;
+					display: block;
+					color: $color-white;
+
+					@include respond(sm-phone) {
+						font-size: 2.8rem;
+					}
+				}
+			}
+		}
+	}
+
+	&-right {
+		width: 45rem;
+		height: 45rem;
+		background: $base-g;
+		border-radius: 50%;
+		margin-left: auto;
+		position: relative;
+
+		@include respond(tab-port) {
+			width: 32rem;
+			height: 32rem;
+		}
+
+		@include respond(phone) {
+			width: 24rem;
+			height: 24rem;
+			margin: 0 auto;
+		}
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 45rem;
+			height: 45rem;
+			border-radius: 50%;
+			background: $base-g;
+			filter: blur(80px);
+
+			@include respond(tab-port) {
+				width: 32rem;
+				height: 32rem;
+			}
+
+			@include respond(phone) {
+				width: 24rem;
+				height: 24rem;
+				margin: 0 auto;
+			}
+		}
+	}
+}
+
+/* ============================================ */
+/* ================ logotype starts ================ */
+/* ============================================ */
+.logotype {
+	&-box {
+		margin-bottom: 3.4rem;
+	}
+
+	&-img {
+		width: 100%;
+		height: auto;
+
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+
+	&-name {
+		color: $color-white;
+		font-size: 1.6rem;
+		margin-top: 3rem;
+		margin-bottom: 0;
+	}
+
+	.check-box {
+		width: 2.4rem;
+		height: 2.4rem;
+		border-radius: 50%;
+		background: $base-g;
+		color: $color-white;
+		font-size: 1.2rem;
+		@include flex-row_center;
+		position: absolute;
+		top: 1.5rem;
+		right: 1.5rem;
+		opacity: 0;
+		transition: all 0.3s;
+	}
+
+	[type='checkbox']:checked,
+	[type='checkbox']:not(:checked),
+	[type='radio']:checked,
+	[type='radio']:not(:checked) {
+		position: absolute;
+		left: -9999px;
+		width: 0;
+		height: 0;
+		visibility: hidden;
+	}
+
+	.checkbox-budget {
+		&:checked + label,
+		&:not(:checked) + label {
+			position: relative;
+			display: block;
+			padding: 5rem 4rem 4rem 4rem;
+			background: rgba(66, 42, 90, 0.34);
+			backdrop-filter: blur(14px);
+			width: 100%;
+			font-size: 18px;
+			text-align: center;
+			border-radius: 16px;
+			border: 2px solid #492f6369;
+			overflow: hidden;
+			cursor: pointer;
+			-webkit-transition: all 0.3s;
+			transition: all 0.3s;
+		}
+
+		&:checked + label {
+			border: 2px solid;
+			border-image: $base-g;
+			border-image-slice: 1;
+			transition: all 0.3s;
+
+			.check-box {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+/* ============================================ */
+/* ================ Our Pricing starts ================ */
+/* ============================================ */
+
+.pricing {
+	background: #180b26;
+	position: relative;
+
+	&-box {
+		width: 100%;
+		background: rgba(49, 30, 68, 0.34);
+		border: 2px solid #492f6369;
+		backdrop-filter: blur(74px);
+		text-align: center;
+		padding: 3.6rem;
+		border-radius: 16px;
+		position: relative;
+		z-index: 2;
+
+		@include respond(phone) {
+			margin-bottom: 3.4rem;
+		}
+
+		&__active {
+			border: 2px solid;
+			border-image: $base-g;
+			border-image-slice: 1;
+		}
+
+		&__tag {
+			color: $color-white;
+			font-size: 2.2rem;
+		}
+
+		&__price {
+			font-size: 5rem;
+			color: $color-white;
+			font-weight: 600;
+			margin: 1.5rem;
+
+			span {
+				color: $color-para;
+				font-size: 2.6rem;
+				margin-right: 1rem;
+				font-weight: 500;
+			}
+		}
+
+		&__discount {
+			font-size: 2rem;
+			font-weight: 600;
+			@include text-g;
+		}
+
+		&__features {
+			text-align: left;
+			list-style-type: none;
+			margin-top: 2.5rem;
+
+			li {
+				font-size: 1.8rem;
+				color: $color-para;
+				margin: 1rem 0;
+
+				span {
+					width: auto;
+					margin-right: 1.4rem;
+
+					img {
+						width: auto;
+						height: 12px;
+					}
+				}
+			}
+		}
+
+		&__action {
+			width: 100%;
+
+			a {
+				width: 100% !important;
+				margin-top: 2.4rem;
+				margin-bottom: 1rem;
+			}
+		}
+	}
+
+	.circle {
+		border-radius: 50%;
+		background: $base-g;
+		position: absolute;
+
+		&-one {
+			width: 8rem;
+			height: 8rem;
+			left: 13rem;
+			bottom: 7rem;
+
+			@include respond(tab-land) {
+				left: 3rem;
+				bottom: 5rem;
+			}
+		}
+
+		&-two {
+			width: 12rem;
+			height: 12rem;
+			right: 13rem;
+			top: 16rem;
+
+			@include respond(tab-land) {
+				right: 2rem;
+				top: 14rem;
+			}
+		}
+	}
+}
+
+/* ============================================ */
+/* ================ Our works starts ================ */
+/* ============================================ */
+
+.work {
+}
+
+/* ============================================ */
+/* ================ Testimonial starts ================ */
+/* ============================================ */
+
+.testimonial {
+	background: #180b26;
+
+	&-box {
+		padding: 4rem;
+		background: rgba(49, 30, 68, 0.34);
+		border: 2px solid #492f6369;
+		backdrop-filter: blur(74px);
+		border-radius: 16px;
+
+		p {
+			margin-bottom: 0;
+		}
+
+		.des {
+			@extend .para;
+		}
+
+		&__details {
+			@include flex-row;
+			align-items: center;
+
+			color: $color-white;
+			margin-top: 2.4rem;
+			position: relative;
+			z-index: 2;
+
+			&-shape {
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				width: 80px;
+				height: 65px;
+				z-index: 1;
+
+				img {
+					width: 100%;
+					height: 100%;
+				}
+			}
+		}
+
+		&__dp {
+			width: 6.4rem;
+			height: 6.4rem;
+			background: $base-g;
+			border-radius: 50%;
+		}
+
+		&__user {
+			padding-left: 1.4rem;
+
+			&-name {
+				font-size: 1.8rem;
+			}
+
+			&-position {
+				font-size: 1.5rem;
+				color: $color-para;
+				margin-top: 5px;
+			}
+		}
+	}
+
+	.owl-theme .owl-nav.disabled + .owl-dots {
+		margin-top: 5rem;
+	}
+
+	.owl-theme .owl-dots .owl-dot span {
+		width: 10px;
+		height: 10px;
+		margin: 5px 7px;
+		background: #50366b;
+		display: block;
+		-webkit-backface-visibility: visible;
+		transition: opacity 0.2s ease;
+		border-radius: 30px;
+	}
+
+	.owl-theme .owl-dots .owl-dot.active span,
+	.owl-theme .owl-dots .owl-dot:hover span {
+		background: $base-g;
+	}
+}
+
+/* ============================================ */
+/* ================ Apply starts ================ */
+/* ============================================ */
+
+.apply {
+	&-box {
+		width: 100%;
+		padding: 6rem;
+		background: rgba(49, 30, 68, 0.34);
+		border: 2px solid #492f6369;
+		backdrop-filter: blur(74px);
+		border-radius: 16px;
+
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		@include respond(phone) {
+			padding: 3.4rem;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		h3 {
+			font-size: 3.8rem;
+			color: $color-white;
+			font-weight: 600;
+
+			@include respond(tab-land) {
+				font-size: 3.3rem;
+			}
+
+			@include respond(phone) {
+				font-size: 3rem;
+				text-align: center;
+			}
+
+			@include respond(sm-phone) {
+				font-size: 2.4rem;
+				line-height: 150%;
+			}
+		}
+
+		a {
+			font-size: 2.2rem !important;
+
+			@include respond(phone) {
+				margin-top: 2rem;
+			}
+		}
+	}
+}
