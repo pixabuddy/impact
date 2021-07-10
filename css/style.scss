@@ -286,6 +286,26 @@ section {
 	font-size: 1.8rem !important;
 	color: $color-para;
 	line-height: 180%;
+
+	@include respond(phone) {
+		font-size: 1.6rem;
+	}
+}
+
+// Hiding image class
+
+.web-only {
+	@include respond(phone) {
+		display: none;
+	}
+}
+
+.mobile-only {
+	display: none;
+
+	@include respond(phone) {
+		display: block;
+	}
 }
 
 /* ============================================ */
@@ -639,45 +659,14 @@ section {
 	}
 
 	&-right {
-		width: 45rem;
-		height: 45rem;
-		background: $base-g;
-		border-radius: 50%;
+		width: 100%;
 		margin-left: auto;
-		position: relative;
+		margin-top: -4rem;
 
-		@include respond(tab-port) {
-			width: 32rem;
-			height: 32rem;
-		}
-
-		@include respond(phone) {
-			width: 24rem;
-			height: 24rem;
-			margin: 0 auto;
-		}
-
-		&::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 45rem;
-			height: 45rem;
-			border-radius: 50%;
-			background: $base-g;
-			filter: blur(80px);
-
-			@include respond(tab-port) {
-				width: 32rem;
-				height: 32rem;
-			}
-
-			@include respond(phone) {
-				width: 24rem;
-				height: 24rem;
-				margin: 0 auto;
-			}
+		img {
+			width: 100%;
+			height: auto;
+			filter: drop-shadow(0px 10px 69px rgba(238, 6, 200, 0.28));
 		}
 	}
 }
@@ -796,26 +785,27 @@ section {
 
 		&__tag {
 			color: $color-white;
-			font-size: 2.2rem;
+			font-size: 2rem;
+			margin-bottom: 1rem;
 		}
 
 		&__price {
-			font-size: 5rem;
+			font-size: 4.5rem;
 			color: $color-white;
 			font-weight: 600;
 			margin: 1.5rem;
 
 			span {
 				color: $color-para;
-				font-size: 2.6rem;
+				font-size: 2.4rem;
 				margin-right: 1rem;
-				font-weight: 500;
+				font-weight: 400;
 			}
 		}
 
 		&__discount {
 			font-size: 2rem;
-			font-weight: 600;
+			font-weight: 500;
 			@include text-g;
 		}
 
@@ -828,6 +818,10 @@ section {
 				font-size: 1.8rem;
 				color: $color-para;
 				margin: 1rem 0;
+
+				@include respond(phone) {
+					font-size: 1.6rem;
+				}
 
 				span {
 					width: auto;
@@ -888,6 +882,14 @@ section {
 /* ============================================ */
 
 .work {
+	&-box {
+		width: 100%;
+
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
 }
 
 /* ============================================ */
@@ -904,12 +906,19 @@ section {
 		backdrop-filter: blur(74px);
 		border-radius: 16px;
 
+		@include respond(phone) {
+			padding: 3rem;
+		}
+
 		p {
 			margin-bottom: 0;
 		}
 
 		.des {
 			@extend .para;
+			@include respond(phone) {
+				font-size: 1.5rem !important;
+			}
 		}
 
 		&__details {
@@ -929,6 +938,11 @@ section {
 				height: 65px;
 				z-index: 1;
 
+				@include respond(phone) {
+					width: 60px;
+					height: 45px;
+				}
+
 				img {
 					width: 100%;
 					height: 100%;
@@ -941,6 +955,11 @@ section {
 			height: 6.4rem;
 			background: $base-g;
 			border-radius: 50%;
+
+			@include respond(phone) {
+				width: 6rem;
+				height: 6rem;
+			}
 		}
 
 		&__user {
@@ -948,12 +967,21 @@ section {
 
 			&-name {
 				font-size: 1.8rem;
+
+				@include respond(phone) {
+					font-size: 1.6rem;
+				}
 			}
 
 			&-position {
 				font-size: 1.5rem;
 				color: $color-para;
 				margin-top: 5px;
+
+				@include respond(phone) {
+					font-size: 1.3rem;
+					margin-top: 2px;
+				}
 			}
 		}
 	}
